@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+  /* outline: 1px dashed #f00; */
+}
+
+body {
+  margin: 5em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #eeeeee;
+}
+
+mgt-person-card.custom-card {
+  margin: 0.5em;
+}
+
+:host .section-host {
+  min-height: 200px !important;
+}
