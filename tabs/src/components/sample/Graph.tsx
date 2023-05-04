@@ -21,12 +21,19 @@ export function Graph(props: { changeMenu?: Function }) {
   const [queryType, setQueryType] = useState<string | number | undefined>(
     "mail"
   );
+  const [isEmailValid, setIsEmailValid] = useState<number>(0); // 0: not checked, 1: valid, 2: invalid
   const [users, setUsers] = useState<Array<String>>([]);
   const [queryState, setQueryState] = useState<number | undefined>(0);
   const { teamsUserCredential } = useContext(TeamsFxContext);
   const { loading, error, data, reload } = useGraphWithCredential(
     async (graph, teamsUserCredential, scope) => {
       // Call graph api directly to get user profile information
+      if (query !== undefined && query.length > 0 && !validateEmail(query)) {
+        setIsEmailValid(2);
+        return;
+      } else {
+        setIsEmailValid(1);
+      }
       setQueryState(1);
       const profile = await graph.api("/me").get();
 
@@ -64,24 +71,42 @@ export function Graph(props: { changeMenu?: Function }) {
     { scope: ["User.Read", "User.Read.All"], credential: teamsUserCredential }
   );
 
+  const validateEmail = (email: string) => {
+    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,10}$/i.test(email);
+  };
+
   return (
     <div>
       {/* <Design /> */}
       <div className="center">
         <div>Enter your search term and Click Search</div>
         <Flex hAlign="center" gap="gap.small">
-          <Label content="Email" />
+          <p>Email</p>
           <Input
+            error={isEmailValid === 2}
             fluid
-            type="text"
+            type="email"
             placeholder={"user@example.com"}
             onChange={async (e, v) => {
               await setQuery(v?.value);
               await setQueryState(0);
             }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                reload();
+              }
+            }}
+            onBlur={(e) => {
+              if (e.target.value.length > 0 && !validateEmail(e.target.value)) {
+                setIsEmailValid(2);
+              } else {
+                setIsEmailValid(1);
+              }
+            }}
           />
 
           <Button
+            style={{ marginTop: "8px" }}
             primary
             content="Search"
             disabled={loading}

@@ -59,27 +59,11 @@ export function PersonCardGrid(props: {
         // <Flex gap="gap.smaller" fill={false}>
         //   {users}
         // </Flex>
-        <>
-          <Grid
-            columns="repeat(2, 1fr)"
-            styles={{ width: "100%" }}
-            content={users}
-          />
-          <div className="center">
-            <h3>Didn't find what you were looking for.</h3>
-            <span>
-              Would you like to submit request for provisioning of your Guest
-              User?{" "}
-              <Button
-                tinted
-                content="Submit"
-                onClick={(e, v) =>
-                  props.changeMenu && props.changeMenu("provision")
-                }
-              />
-            </span>
-          </div>
-        </>
+        <Grid
+          columns="repeat(2, 1fr)"
+          styles={{ width: "100%" }}
+          content={users}
+        />
       )}
       {!props.loading &&
         props.data &&
