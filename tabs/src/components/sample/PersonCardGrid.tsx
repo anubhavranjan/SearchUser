@@ -53,7 +53,7 @@ export function PersonCardGrid(props: {
         "" //user.id
       );
 
-      console.log(user);
+      //console.log(user);
       return (
         <PersonCard
           className="custom-card"
