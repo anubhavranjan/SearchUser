@@ -54,7 +54,7 @@ export function Graph(props: { changeMenu?: Function }) {
         setQueryState(2);
         if (searchUsers && searchUsers.value) {
           for (let user of searchUsers.value) {
-            resultUsers.push(user.id);
+            resultUsers.push(user);
           }
           //setUsers(resultUsers);
         }

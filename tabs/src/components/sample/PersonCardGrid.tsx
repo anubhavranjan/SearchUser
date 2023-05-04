@@ -11,6 +11,25 @@ import {
 } from "@fluentui/react-northstar";
 import { PersonCardGraphToolkit } from "./PersonCardGraphToolkit";
 
+class User {
+  //{"businessPhones":[],"displayName":"Anubhav Ranjan","givenName":null,"jobTitle":null,"mail":"anuran@microsoft.com","mobilePhone":null,"officeLocation":null,"preferredLanguage":null,"surname":null,"userPrincipalName":"anuran_microsoft.com#EXT#@M365x46282500.onmicrosoft.com","id":"18719b14-cde4-4546-94a0-edb42efd3c7c"}
+  displayName: string;
+  mail: string;
+  userPrincipalName: string;
+  id: string;
+  constructor(
+    displayName: string,
+    mail: string,
+    userPrincipalName: string,
+    id: string
+  ) {
+    this.displayName = displayName;
+    this.mail = mail;
+    this.userPrincipalName = userPrincipalName;
+    this.id = id;
+  }
+}
+
 export function PersonCardGrid(props: {
   loading?: boolean;
   error?: any;
@@ -20,20 +39,29 @@ export function PersonCardGrid(props: {
   data?:
     | {
         profile: any;
-        resultUsers: string[];
+        resultUsers: any[];
       }
     | undefined;
 }) {
   let users: JSX.Element[] = [];
   if (!props.loading && props.data && props.data.resultUsers) {
     users = props.data.resultUsers.map((user) => {
+      let tempuser: User = new User(
+        user.displayName,
+        user.mail,
+        user.mail, //userPrincipalName,
+        "" //user.id
+      );
+
+      console.log(user);
       return (
         <PersonCard
           className="custom-card"
           style={{ margin: "0.5em" }}
-          key={user}
-          userId={user}
+          key={user.id}
+          personDetails={tempuser}
           isExpanded={false}
+          fetchImage={true}
         />
         // <Flex.Item shrink={false} size="340" styles={{ width: "340" }}>
         //   <PersonCard key={user} userId={user} isExpanded={false} />
