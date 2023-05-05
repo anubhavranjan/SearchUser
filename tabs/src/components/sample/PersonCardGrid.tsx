@@ -10,6 +10,7 @@ import {
   Button,
 } from "@fluentui/react-northstar";
 import { PersonCardGraphToolkit } from "./PersonCardGraphToolkit";
+import { ProfileCard } from "./ProfileCard";
 
 class User {
   //{"businessPhones":[],"displayName":"Anubhav Ranjan","givenName":null,"jobTitle":null,"mail":"anuran@microsoft.com","mobilePhone":null,"officeLocation":null,"preferredLanguage":null,"surname":null,"userPrincipalName":"anuran_microsoft.com#EXT#@M365x46282500.onmicrosoft.com","id":"18719b14-cde4-4546-94a0-edb42efd3c7c"}
@@ -36,6 +37,7 @@ export function PersonCardGrid(props: {
   query?: string;
   queryState?: number;
   changeMenu?: Function;
+  chatFn?: Function;
   data?:
     | {
         profile: any;
@@ -49,20 +51,25 @@ export function PersonCardGrid(props: {
       let tempuser: User = new User(
         user.displayName,
         user.mail,
-        user.mail, //userPrincipalName,
+        user.userPrincipalName,
         "" //user.id
       );
 
       //console.log(user);
       return (
-        <PersonCard
-          className="custom-card"
-          style={{ margin: "0.5em" }}
-          key={user.id}
-          personDetails={tempuser}
-          isExpanded={false}
-          fetchImage={true}
-        />
+        <>
+          <PersonCard
+            className="custom-card"
+            style={{ margin: "0.5em" }}
+            key={user.id}
+            personDetails={tempuser}
+            isExpanded={false}
+            fetchImage={true}
+          />
+          <br />
+          {user !== null &&
+            ProfileCard(false, props.data?.profile, user, props.chatFn)}
+        </>
         // <Flex.Item shrink={false} size="340" styles={{ width: "340" }}>
         //   <PersonCard key={user} userId={user} isExpanded={false} />
         // </Flex.Item>

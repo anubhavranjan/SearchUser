@@ -15,6 +15,7 @@ import { PersonCardGraphToolkit } from "./PersonCardGraphToolkit";
 import { useContext, useState } from "react";
 import { TeamsFxContext } from "../Context";
 import { PersonCardGrid } from "./PersonCardGrid";
+import { createMicrosoftGraphClientWithCredential } from "@microsoft/teamsfx";
 
 export function Graph(props: { changeMenu?: Function }) {
   const [query, setQuery] = useState<string>();
@@ -68,11 +69,42 @@ export function Graph(props: { changeMenu?: Function }) {
       }
       return { profile, resultUsers };
     },
-    { scope: ["User.Read", "User.Read.All"], credential: teamsUserCredential }
+    {
+      scope: ["User.Read", "User.Read.All"],
+      credential: teamsUserCredential,
+    }
   );
 
   const validateEmail = (email: string) => {
     return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,10}$/i.test(email);
+  };
+
+  const initChat = async (user: any, guest: any) => {
+    // if (teamsUserCredential) {
+    //   const graph = createMicrosoftGraphClientWithCredential(
+    //     teamsUserCredential,
+    //     ["User.Read", "User.Read.All", "Chat.Create"]
+    //   );
+    //   const chat = await graph.api("/chats").post({
+    //     chatType: "oneOnOne",
+    //     members: [
+    //       {
+    //         "@odata.type": "#microsoft.graph.aadUserConversationMember",
+    //         roles: ["owner"],
+    //         "user@odata.bind":
+    //           "https://graph.microsoft.com/v1.0/users('" + user.id + "')",
+    //       },
+    //       {
+    //         "@odata.type": "#microsoft.graph.aadUserConversationMember",
+    //         roles: ["guest"],
+    //         "user@odata.bind":
+    //           "https://graph.microsoft.com/v1.0/users('" + guest.id + "')",
+    //       },
+    //     ],
+    //   });
+    //   return chat;
+    // }
+    return undefined;
   };
 
   return (
@@ -123,6 +155,7 @@ export function Graph(props: { changeMenu?: Function }) {
           query={query}
           queryState={queryState}
           changeMenu={props.changeMenu}
+          chatFn={initChat}
         />
       </div>
     </div>
