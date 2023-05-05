@@ -16,8 +16,8 @@ import { chat } from "@microsoft/teams-js";
 export const ProfileCard = (
   loading: boolean,
   profile?: any,
-  data?: any,
-  chatFn?: Function
+  data?: any
+  //chatFn?: Function
 ) => (
   <Card
     aria-roledescription="card avatar"
@@ -28,6 +28,7 @@ export const ProfileCard = (
       margin: "0.5em 0",
       width: "340px",
       background: "#faf9f8",
+      borderRadius: "8px",
     }}
   >
     <Card.Header styles={{ "margin-bottom": "0" }}>
@@ -50,7 +51,7 @@ export const ProfileCard = (
               image={data.photoUrl}
               name={data.displayName}
             />{" "}
-            <Text content={data.displayName} size="larger" />
+            <Text content={data.displayName} size="large" weight="semibold" />
           </Flex>
           <div className="base-icons">
             <a href={"mailto:" + data.mail}>
@@ -74,16 +75,6 @@ export const ProfileCard = (
                     .then((result) => console.log("then: ", result))
                     .catch((error) => console.log(error));
                 }
-                // if (chatFn) {
-                //   let chatObj = await chatFn(data, profile);
-                //   if (chatObj) {
-                //     const { id, webUrl } = chatObj;
-                //     console.log(id, webUrl);
-                //     if (webUrl) window.open(webUrl);
-                //   }
-                // } else {
-                //   console.log("chatFn not defined");
-                // }
               }}
               title={"Start a chat with " + data.displayName}
             />
@@ -103,12 +94,19 @@ export const ProfileCard = (
                     icon={<EmailIcon />}
                     content="Email"
                     text
+                    size="small"
                     title="Email"
                     disabled
+                    style={{ color: "#484644" }}
                   />
                   <br />
                   <a href={"mailto:" + data.mail}>
-                    <Button content={data.mail} text title={data.mail} />
+                    <Button
+                      content={data.mail}
+                      text
+                      title={data.mail}
+                      size="small"
+                    />
                   </a>
                   <br />
                   <br />
@@ -116,20 +114,22 @@ export const ProfileCard = (
                     icon={<ChatIcon />}
                     content="Teams"
                     text
+                    size="small"
                     title="Teams"
                     disabled
+                    style={{ color: "#484644" }}
                   />
                   <br />
                   <Button
                     text
                     content={data.mail}
                     title={data.mail}
+                    size="small"
                     onClick={async () => {
                       console.log(
                         "https://teams.microsoft.com/l/chat/0/0?users=" +
                           data.userPrincipalName
                       );
-                      //if (chatFn) {
                       if (chat.isSupported()) {
                         const chatPromise = chat.openChat({
                           user: data.userPrincipalName,
@@ -138,15 +138,6 @@ export const ProfileCard = (
                           .then((result) => console.log("then: ", result))
                           .catch((error) => console.log(error));
                       }
-                      // let chatObj = await chatFn(data, profile);
-                      // if (chatObj) {
-                      //   const { id, webUrl } = chatObj;
-                      //   console.log(id, webUrl);
-                      //   if (webUrl) window.open(webUrl);
-                      // }
-                      // } else {
-                      //   console.log("chatFn not defined");
-                      // }
                     }}
                   />
                 </div>

@@ -2,28 +2,14 @@ import "./Graph.css";
 import { useGraphWithCredential } from "@microsoft/teamsfx-react";
 import { Providers, ProviderState } from "@microsoft/mgt-element";
 import { TeamsFxProvider } from "@microsoft/mgt-teamsfx-provider";
-import {
-  Button,
-  Input,
-  RadioGroup,
-  Flex,
-  Label,
-} from "@fluentui/react-northstar";
-import { Design } from "./Design";
-import { PersonCardFluentUI } from "./PersonCardFluentUI";
-import { PersonCardGraphToolkit } from "./PersonCardGraphToolkit";
+import { Button, Input, Flex } from "@fluentui/react-northstar";
 import { useContext, useState } from "react";
 import { TeamsFxContext } from "../Context";
 import { PersonCardGrid } from "./PersonCardGrid";
-import { createMicrosoftGraphClientWithCredential } from "@microsoft/teamsfx";
 
 export function Graph(props: { changeMenu?: Function }) {
   const [query, setQuery] = useState<string>();
-  const [queryType, setQueryType] = useState<string | number | undefined>(
-    "mail"
-  );
   const [isEmailValid, setIsEmailValid] = useState<number>(0); // 0: not checked, 1: valid, 2: invalid
-  const [users, setUsers] = useState<Array<String>>([]);
   const [queryState, setQueryState] = useState<number | undefined>(0);
   const { teamsUserCredential } = useContext(TeamsFxContext);
   const { loading, error, data, reload } = useGraphWithCredential(
@@ -79,37 +65,8 @@ export function Graph(props: { changeMenu?: Function }) {
     return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,10}$/i.test(email);
   };
 
-  const initChat = async (user: any, guest: any) => {
-    // if (teamsUserCredential) {
-    //   const graph = createMicrosoftGraphClientWithCredential(
-    //     teamsUserCredential,
-    //     ["User.Read", "User.Read.All", "Chat.Create"]
-    //   );
-    //   const chat = await graph.api("/chats").post({
-    //     chatType: "oneOnOne",
-    //     members: [
-    //       {
-    //         "@odata.type": "#microsoft.graph.aadUserConversationMember",
-    //         roles: ["owner"],
-    //         "user@odata.bind":
-    //           "https://graph.microsoft.com/v1.0/users('" + user.id + "')",
-    //       },
-    //       {
-    //         "@odata.type": "#microsoft.graph.aadUserConversationMember",
-    //         roles: ["guest"],
-    //         "user@odata.bind":
-    //           "https://graph.microsoft.com/v1.0/users('" + guest.id + "')",
-    //       },
-    //     ],
-    //   });
-    //   return chat;
-    // }
-    return undefined;
-  };
-
   return (
     <div>
-      {/* <Design /> */}
       <div className="center">
         <div>Enter your search term and Click Search</div>
         <Flex hAlign="center" gap="gap.small">
@@ -155,7 +112,6 @@ export function Graph(props: { changeMenu?: Function }) {
           query={query}
           queryState={queryState}
           changeMenu={props.changeMenu}
-          chatFn={initChat}
         />
       </div>
     </div>
