@@ -32,7 +32,7 @@ export function Graph(props: { changeMenu?: Function }) {
         // photoUrl = URL.createObjectURL(photo);
         if (query !== "") {
           let url =
-            "/users?$filter=userType eq 'Guest' &$filter=mail eq '" +
+            "/users?$filter=userType eq 'Guest' and accountEnabled eq true and mail eq '" +
             query +
             "'";
           searchUsers = await graph.api(url).get();
